@@ -21,9 +21,64 @@
 </head>
 
 <body>
+    <!-- navbar -->
 
+    <header class="container">
+        <div class="navbar bg-base-100 shadow-sm">
+            <div class="navbar-start">
+                <div class="dropdown">
+                    <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h8m-8 6h16" />
+                        </svg>
+                    </div>
+                    <ul tabindex="-1"
+                        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="produtcs.html">Products</a></li>
+                        <li><a>About</a></li>
+                        <li><a>Contact</a></li>
+                    </ul>
+                </div>
+                <a class="btn btn-ghost text-xl text-pimary">Swift Cart</a>
+            </div>
+            <div class="navbar-center hidden lg:flex">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="produtcs.html">Products</a></li>
+                    <li><a>About</a></li>
+                    <li><a>Contact</a></li>
 
-<script src="./script/index.js"></script>
+                </ul>
+            </div>
+            <div class="navbar-end">
+                <a class="">
+                    <i class="fa-solid fa-cart-flatbed-suitcase"></i>
+                    <span class="badge badge-sm badge-primary">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Category -->
+    <section class="container">
+        <div class="text-center py-3 md:py-10">
+            <h2 class="text-xl font-bold">Our Products</h2>
+            <div id="category-container" class=" flex gap-3 flex-wrap justify-center py-4">
+                
+
+            </div>
+        </div>
+    </section>
+
+    <!-- products -->
+     <section id="products-container" class="my-5 md:my-10 container">
+        
+     </section>
+
+    <script src="./script/index.js"></script>
 </body>
 
 </html>

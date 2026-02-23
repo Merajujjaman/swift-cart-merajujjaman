@@ -53,3 +53,74 @@ const renderTrendingProduct = (products) => {
 };
 
 getTrendingProducts();
+
+/* load product by category */
+const loadProductByCategory = async (category) => {
+  console.log(category);
+
+  const url = category == 'all'? 'https://fakestoreapi.com/products' :`https://fakestoreapi.com/products/category/${category}`
+  try{
+      const res = await fetch(url)
+      const products = await res.json()
+      console.log(products);
+      renderProducts(products)
+
+  }catch(error){
+      console.error('Failed to load products', error);
+  }
+};
+
+const renderProducts = (products) => {
+  const productsContainer = document.getElementById("products-container");
+  productsContainer.innerHTML = "";
+};
+
+/* load product category */
+const loadProductCategory = async () => {
+  try {
+    const res = await fetch("https://fakestoreapi.com/products/categories");
+    const categories = await res.json();
+    renderCategory(categories);
+  } catch (error) {
+    console.error("Failed to fetch categories", error);
+  }
+};
+
+
+const renderCategory = (categories) => {
+    const categoryContainer = document.getElementById("category-container");
+    categoryContainer.innerHTML = "";
+    const allCategories = ["all", ...categories];
+  
+    allCategories.forEach((category) => {
+      const categoryList = document.createElement("ul");
+  
+      const btn = document.createElement("button");
+      btn.className = "btn btn-sm btn-outline";
+      btn.textContent = category;
+  
+      // No quotes/HTML issues; pure JS handler
+      btn.addEventListener("click", () => {
+        loadProductByCategory(category); // this will log even for men's / women's
+      });
+  
+      categoryList.appendChild(btn);
+      categoryContainer.appendChild(categoryList);
+    });
+  };
+
+// const renderCategory = (categories) => {
+//   const categoryContainer = document.getElementById("category-container");
+//   categoryContainer.innerHTML = "";
+//   const allCategories = ["all", ...categories];
+//   allCategories.forEach((category) => {
+//     const categoryList = document.createElement("ul");
+//     categoryList.innerHTML = `
+//             <button onClick="loadProductByCategory(${JSON.stringify(category)})" class="btn btn-sm btn-outline">${category}</button>
+//         `;
+
+//     categoryContainer.appendChild(categoryList);
+//   });
+// };
+
+loadProductCategory();
