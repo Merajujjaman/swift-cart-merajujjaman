@@ -51,10 +51,15 @@ const productDetails =(product) => {
         <button class="btn btn-outline btn-sm">
             Buy Now
         </button>
-        <button class="btn btn-primary btn-sm"> <i class="fa-solid fa-cart-shopping"></i> Add</button>
+        <button class="btn btn-primary btn-sm add-to-cart"> <i class="fa-solid fa-cart-shopping"></i> Add</button>
         </div>
       </div>
     `
+
+    const addBtn = modalContent.querySelector(".add-to-cart");
+    if (addBtn) {
+      addBtn.addEventListener("click", () => addToCart(product));
+    }
 
     document.getElementById("my_modal_5").showModal()
 }
@@ -92,13 +97,70 @@ const renderTrendingProduct = (products) => {
         <i class="fa-regular fa-eye"></i>
         Details
         </button>
-        <button class="btn btn-primary btn-sm"> <i class="fa-solid fa-cart-shopping"></i> Add</button>
+        <button class="btn btn-primary btn-sm add-to-cart"> <i class="fa-solid fa-cart-shopping"></i> Add</button>
         </div>
       </div>
     `;
 
+    const addBtn = card.querySelector(".add-to-cart");
+    if (addBtn) {
+      addBtn.addEventListener("click", () => addToCart(product));
+    }
+
     container.appendChild(card);
   });
+};
+
+const CART_STORAGE_KEY = "swift_cart";
+let cart = [];
+
+const loadCartFromStorage = () => {
+  try {
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    cart = stored ? JSON.parse(stored) : [];
+  } catch (e) {
+    cart = [];
+  }
+  updateCartCountBadge();
+};
+
+const saveCartToStorage = () => {
+  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+};
+
+const getCartCount = () => {
+  return cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+};
+
+const updateCartCountBadge = () => {
+  const badge = document.getElementById("cart-count");
+  if (badge) {
+    badge.textContent = getCartCount();
+  }
+};
+
+const addToCart = (product) => {
+  if (!product || !product.id) return;
+
+  const existing = cart.find((item) => item.id === product.id);
+  if (existing) {
+    existing.quantity = (existing.quantity || 1) + 1;
+  } else {
+    cart.push({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      image: product.image,
+      quantity: 1,
+    });
+  }
+
+  saveCartToStorage();
+  updateCartCountBadge();
+};
+
+const initCart = () => {
+  loadCartFromStorage();
 };
 
 getTrendingProducts();
@@ -160,13 +222,18 @@ const renderProducts = (products) => {
         <i class="fa-regular fa-eye"></i>
         Details
         </button>
-        <button class="btn btn-primary btn-sm"> 
+        <button class="btn btn-primary btn-sm add-to-cart"> 
             <i class="fa-solid fa-cart-shopping"></i>
             Add
         </button>
         </div>
       </div>
     `;
+
+    const addBtn = card.querySelector(".add-to-cart");
+    if (addBtn) {
+      addBtn.addEventListener("click", () => addToCart(product));
+    }
 
     productsContainer.appendChild(card);
   });
@@ -209,3 +276,4 @@ const renderCategory = (categories) => {
 };
 
 loadProductCategory();
+initCart();
