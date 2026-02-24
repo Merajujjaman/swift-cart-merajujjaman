@@ -1,5 +1,4 @@
 ## Swift Cart
-## JavaScript প্রশ্ন ও উত্তর (Bangla)
 
 ### 1. What is the difference between null and undefined??
 
