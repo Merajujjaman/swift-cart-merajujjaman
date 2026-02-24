@@ -16,6 +16,51 @@ const getTrendingProducts = async () => {
   }
 };
 
+/* load product details by id */
+const loadSingleProduct = async(id) => {
+    const url = `https://fakestoreapi.com/products/${id}`
+    const res = await fetch(url)
+    const product = await res.json()
+    productDetails(product);
+}
+
+/* render product details in modal */
+const productDetails =(product) => {
+    // console.log(product);
+    const modalContent = document.getElementById("modal-content")
+    modalContent.innerHTML = ""
+    modalContent.innerHTML = `
+        <figure class="px-4 pt-4 h-48 flex items-center justify-center overflow-hidden bg-sky-100">
+        <img src="${product.image}" alt="${product.title}" class="object-contain max-h-full" />
+      </figure>
+      <div class="card-body">
+        <div class="flex items-center justify-between mt-2">
+          <p class="text-xs text-gray-500">${product.category}</p>
+          <span class="text-xs text-yellow-500 flex items-center gap-1">
+            <i class="fa-solid fa-star"></i>
+            ${product.rating?.rate?.toFixed ? product.rating.rate.toFixed(1) : product.rating.rate}
+            <span class="text-[10px] text-gray-400">(${product.rating?.count || 0})</span>
+          </span>
+         </div>
+        <h3 class="card-title text-sm md:text-base overflow-hidden">${product.title}</h3>
+        
+        <p class="font-semibold text-primary">$${product.price}</p>
+        <p class=" text-sm text-gray-500">$${product.description}</p>
+        
+        <div class="card-actions flex justify-between mt-3">
+        <button class="btn btn-outline btn-sm">
+            Buy Now
+        </button>
+        <button class="btn btn-primary btn-sm"> <i class="fa-solid fa-cart-shopping"></i> Add</button>
+        </div>
+      </div>
+    `
+
+    document.getElementById("my_modal_5").showModal()
+}
+
+
+/* Render Trending products */
 const renderTrendingProduct = (products) => {
   const container = document.getElementById("trending-products");
   if (!container) return;
@@ -43,11 +88,11 @@ const renderTrendingProduct = (products) => {
         
         <p class="font-semibold text-primary">$${product.price}</p>
         <div class="card-actions flex justify-between mt-3">
-        <button class="btn btn-outline btn-sm">
+        <button onclick="loadSingleProduct(${product.id})" class="btn btn-outline btn-sm">
         <i class="fa-regular fa-eye"></i>
         Details
         </button>
-        <button class="btn btn-primary btn-sm">Add to Cart</button>
+        <button class="btn btn-primary btn-sm"> <i class="fa-solid fa-cart-shopping"></i> Add</button>
         </div>
       </div>
     `;
@@ -90,8 +135,7 @@ const renderProducts = (products) => {
   const productsContainer = document.getElementById("products-container");
   if (!productsContainer) return;
   productsContainer.innerHTML = "";
-  products.forEach(product =>{
-
+  products.forEach((product) => {
     const card = document.createElement("div");
     card.className = "card bg-base-100 shadow-sm";
 
@@ -112,11 +156,14 @@ const renderProducts = (products) => {
         
         <p class="font-semibold text-primary">$${product.price}</p>
         <div class="card-actions flex justify-between mt-3">
-        <button class="btn btn-outline btn-sm">
+        <button onclick="loadSingleProduct(${product.id})" class="btn btn-outline btn-sm">
         <i class="fa-regular fa-eye"></i>
         Details
         </button>
-        <button class="btn btn-primary btn-sm">Add to Cart</button>
+        <button class="btn btn-primary btn-sm"> 
+            <i class="fa-solid fa-cart-shopping"></i>
+            Add
+        </button>
         </div>
       </div>
     `;
